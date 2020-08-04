@@ -5,7 +5,8 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "pm2 start src/app.js --name ja222um-issues --watch",
+    "start": "node src/app.js",
+    "dev": "nodemon src/app.js",
     "lint": "npx eslint . || exit 0",
     "lint:fix": "npx eslint . --fix || exit 0"
   },
@@ -22,7 +23,8 @@
     "eslint-plugin-jsdoc": "^30.2.0",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^4.2.1",
-    "eslint-plugin-standard": "^4.0.1"
+    "eslint-plugin-standard": "^4.0.1",
+    "nodemon": "^2.0.4"
   },
   "dependencies": {
     "dotenv": "^8.2.0",
