@@ -189,6 +189,24 @@ a.author {
     align-items: center;
 }
 
+main div.issue .labels {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 10px;
+}
+
+main div.issue .labels .label {
+    background: #d0329b;
+    padding: 5px;
+    border-radius: 5px;
+    color: #ffffff;
+    font-weight: 800;
+    font-size: 0.8rem;
+    line-height: calc(0.8rem + 10px);
+    text-decoration: none;
+
+}
+
 main div.issue .description {
     box-sizing: border-box;
     width: 100%;
@@ -196,6 +214,23 @@ main div.issue .description {
     padding-right: 20px;
     padding-top: 10px;
     padding-bottom: 10px;
+}
+
+main div.issue .footer {
+    box-sizing: border-box;
+    width: 100%;
+    padding-top: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.lastUpdated {
+    color: #383838;
+    font-style: italic;
 }
 
 main div.notifications {

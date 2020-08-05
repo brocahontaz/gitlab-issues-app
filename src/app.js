@@ -29,6 +29,10 @@ hbs.registerHelper('formatDate', function (datetime, format) {
     }
 })
 
+hbs.registerHelper('cleanLink', function(link) {
+  return link.slice(0, -2)
+})
+
 app.use(logger('dev'))
 
 app.set('view engine', 'hbs')
