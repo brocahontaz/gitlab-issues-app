@@ -51,4 +51,8 @@ app.use('/', express.static(path.join(__dirname, 'public')))
 
 app.use('/', require('./routes/homeRouter'))
 
+io.on('connection', (socket) =>{
+  
+})
+
 server.listen(8080, () => console.log('Testing server at http://localhost:8080'))

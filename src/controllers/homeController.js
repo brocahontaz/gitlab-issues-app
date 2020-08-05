@@ -27,4 +27,16 @@ homeController.index = async (req, res) => {
 
 }
 
+homeController.receive = async (req, res) => {
+    try {
+        const data = req.body
+        //const json = JSON.parse(data)
+        console.log(req.headers)
+        console.log(data)
+    } catch (err) {
+        console.log(err)
+    }
+    //console.log(req.body.json())
+}
+
 module.exports = homeController
