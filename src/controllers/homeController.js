@@ -33,6 +33,10 @@ homeController.receive = async (req, res) => {
         //const json = JSON.parse(data)
         console.log(req.headers)
         console.log(data)
+
+        if (req.headers['x-gitlab-token'] === process.env.SECRET) {
+            console.log('secret works')
+        }
     } catch (err) {
         console.log(err)
     }
