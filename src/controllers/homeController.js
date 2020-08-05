@@ -11,17 +11,20 @@ const apiUrl = 'https://gitlab.lnu.se/api/v4/projects/'+process.env.PROJECT_ID+'
 homeController.index = async (req, res) => {
 
     try {
-    const testFetch = await fetch(apiUrl)
+    const data = await fetch(apiUrl)
 
-    console.log(testFetch)
+    const issues = await data.json()
+
+    const viewData = { issues }
+
+    res.render('home/index', viewData)
+
+    console.log(await issues)
 
     } catch (err) {
         console.log(err)
     }
 
-    const viewData = {}
-
-    res.render('home/index')
 }
 
 module.exports = homeController
