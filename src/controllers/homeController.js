@@ -19,7 +19,7 @@ homeController.index = async (req, res) => {
 
     res.render('home/index', viewData)
 
-    console.log(await issues)
+    //console.log(await issues)
 
     } catch (err) {
         console.log(err)
@@ -27,15 +27,17 @@ homeController.index = async (req, res) => {
 
 }
 
-homeController.receive = async (req, res) => {
+homeController.receive = async (req, res, next) => {
     try {
         const data = req.body
         //const json = JSON.parse(data)
-        console.log(req.headers)
-        console.log(data)
+        //console.log(req.headers)
+        //console.log(data)
 
         if (req.headers['x-gitlab-token'] === process.env.SECRET) {
-            console.log('secret works')
+            //console.log('secret works')
+            const event = 'event'
+            next(event)
         }
     } catch (err) {
         console.log(err)

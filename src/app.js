@@ -22,7 +22,7 @@ const DateFormats = {
 hbs.registerHelper('formatDate', function (datetime, format) {
     if (moment) {
       format = DateFormats[format] || format
-      console.log('datum', datetime)
+      //console.log('datum', datetime)
       return moment(datetime).format(format)
     } else {
       return datetime
@@ -51,8 +51,13 @@ app.use('/', express.static(path.join(__dirname, 'public')))
 
 app.use('/', require('./routes/homeRouter'))
 
+app.use((event, req, res, next) => {
+  console.log('post')
+  io.emit('event', event)
+})
+
 io.on('connection', (socket) =>{
-  
+  console.log('connected on socket!')
 })
 
 server.listen(8080, () => console.log('Testing server at http://localhost:8080'))
