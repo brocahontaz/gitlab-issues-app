@@ -7,11 +7,27 @@ const express = require('express')
 const socket = require('socket.io')
 const hbs = require('express-hbs')
 const path = require('path')
+const moment = require('moment')
 const logger = require('morgan')
 
 const app = express()
 const server = http.createServer(app)
 const io = socket.listen(server)
+
+const DateFormats = {
+    short: 'MMM Do YY',
+    long: 'MMMM Do YYYY, HH:mm:ss'
+  }
+
+hbs.registerHelper('formatDate', function (datetime, format) {
+    if (moment) {
+      format = DateFormats[format] || format
+      console.log('datum', datetime)
+      return moment(datetime).format(format)
+    } else {
+      return datetime
+    }
+})
 
 app.use(logger('dev'))
 
@@ -21,6 +37,7 @@ app.engine('hbs', hbs.express4({
     defaultLayout: path.join(__dirname, 'views', 'layouts', 'default'),
     partialsDir: path.join(__dirname, 'views', 'partials')
 }))
+
 
 app.set('views', path.join(__dirname, 'views'))
 

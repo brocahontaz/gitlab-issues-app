@@ -1,3 +1,28 @@
+<div class="issues">
+    <div class="issuesHeader">
+        Issues
+    </div>
 {{#each issues}}
-    {{ this.id }}
+    <div class="issue">
+        <div class="header">
+            <a href="{{this.web_url}}">{{ this.title }}</a>
+            {{this.state}}
+        </div>
+        <div class="status">
+            Opened on {{formatDate this.created_at "long"}} by <a href="{{this.author.web_url}}" class="author">{{this.author.name}} <img src="{{this.author.avatar_url}}" class="avatar"></a>
+        </div>
+        <div class="description">
+            {{this.description}}
+        </div>
+        <div class="meta">
+            Comments: {{this.user_notes_count}}
+            Last updated {{formatDate this.updated_at "long"}}
+        </div>
+    </div> 
 {{/each}}
+</div>
+<div class="notifications">
+    <div class="notificationsHeader">
+        Notifications
+    </div>
+</div>
