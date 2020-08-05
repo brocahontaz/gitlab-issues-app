@@ -1,0 +1,142 @@
+html, body, div, header, nav, main, section, footer
+{
+	margin: 0;
+	padding: 0;
+}
+
+header, nav, main, footer, section
+{
+	display: block;
+}
+
+body {
+	width: 100%;
+	background-color: #c5c5c5;
+	font-family: Geometos Rounded;
+	color: #000;
+	font-family: Arial;
+	font-size: 62.5%;
+}
+
+header {
+	width: 100%;
+	height: 50px;
+	position: relative;
+	background: #4ac2ff;
+	background: -moz-linear-gradient(top, #ff4af0 0%, #d0329b 100%);
+	background: -webkit-linear-gradient(top, #ff4af0 0%,#d0329b 100%);
+	background: linear-gradient(to bottom, #ff4af0 0%,#d0329b 100%);
+	color: #fff;
+	display: flex;
+	align-items: center;
+	padding-left: 10px;
+	box-sizing: border-box;
+}
+
+header a:link 
+{
+	color: #FFF;
+	text-decoration: none;
+}
+
+header a:visited 
+{
+	
+	color: #FFF;
+	text-decoration: none;
+}
+
+header a:hover 
+{
+	
+	color: #FFF;
+	text-decoration: none;
+}
+
+header a:active 
+{
+	color: #FFF;
+	text-decoration: none;
+}
+
+#headerTitle {
+	color: #fff;
+	font-size: 1.0rem;
+	margin-top: 0px auto;
+	font-weight: bold;
+}
+
+header div {
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
+nav {
+	font-size: 0.9rem;
+	margin-left: 10px;
+	/*margin-right: 10px;*/
+	display: flex;
+}
+
+nav div {
+	margin: 0;
+}
+
+nav a:link 
+{
+	color: #FFF;
+	text-decoration: underline;
+}
+
+nav a:visited 
+{
+	
+	color: #FFF;
+	text-decoration: underline;
+}
+
+nav a:hover 
+{
+	
+	color: #FFF;
+	text-decoration: underline;
+}
+
+nav a:active 
+{
+	color: #FFF;
+	text-decoration: underline;
+}
+
+nav a.user {
+	font-weight: 800;
+}
+
+main {
+	box-sizing: border-box;
+	/*padding: 10px;*/
+	font-size: 0.8rem;
+	display: flex;
+	align-items: flex-start;
+	justify-content: flex-start;
+	flex-wrap: wrap;
+	padding-bottom: 40px;
+}
+
+footer {
+	position: fixed;
+	left: 0;
+	bottom: 0;
+	background: #383838;
+	color: #fff;
+	background: -moz-linear-gradient(top, #383838 0%, #2d2d2d 100%);
+	background: -webkit-linear-gradient(top, #383838 0%,#2d2d2d 100%);
+	background: linear-gradient(to bottom, #383838 0%,#2d2d2d 100%);
+	width: 100%;
+	height: 30px;
+	padding-left: 20px;
+	display: flex;
+	align-items: center;
+	/*border-bottom: 10px solid #000;*/
+	box-sizing: border-box;
+}
