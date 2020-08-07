@@ -3,7 +3,7 @@
         Issues
     </div>
 {{#each issues}}
-    <div class="issue">
+    <div class="issue" id={{this.id}}>
         <div class="header">
             <a href="{{this.web_url}}">{{ this.title }}</a>
             {{this.state}}
