@@ -6,6 +6,30 @@
     <link rel="stylesheet" href="/css/style.css">
     <script type="module" src="/js/app.js"></script>
     <script src="/socket.io/socket.io.js"></script>
+    <template id="issueTemplate">
+        <div class="issue">
+            <div class="header">
+                <a href=""></a>
+                <span></span>
+            </div>
+            <div class="status">
+                Opened on <span></span> by <a href="" class="author"> <img src="" class="avatar"></a>
+            </div>
+            <div class="labels">
+                    <a href="" class="label"></a>
+            </div>
+            <div class="description">
+            </div>
+            <div class="footer">
+                <span class="comments">Comments: </span>
+                <span class="votes">Upvotes/Downvotes: </span>
+                <span class="lastUpdated">Last updated on </span>
+            </div>
+        </div> 
+    </template>
+    <template id="notificationTemplate">
+
+    </template>
 </head>
 
 <body>

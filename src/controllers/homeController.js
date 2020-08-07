@@ -37,9 +37,9 @@ homeController.receive = async (req, res, next) => {
         if (req.headers['x-gitlab-token'] === process.env.SECRET) {
 
             if (req.headers['x-gitlab-event'] === 'Note Hook') {
-
-            } else if (req.headers['x-gitlab-event'] === 'Issue Hook') {
                 
+            } else if (req.headers['x-gitlab-event'] === 'Issue Hook') {
+
             }
             //console.log('secret works')
             const event = 'event'
