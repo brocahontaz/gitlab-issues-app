@@ -31,10 +31,16 @@ homeController.receive = async (req, res, next) => {
     try {
         const data = req.body
         //const json = JSON.parse(data)
-        //console.log(req.headers)
+        console.log(req.headers)
         //console.log(data)
 
         if (req.headers['x-gitlab-token'] === process.env.SECRET) {
+
+            if (req.headers['x-gitlab-event'] === 'Note Hook') {
+
+            } else if (req.headers['x-gitlab-event'] === 'Issue Hook') {
+                
+            }
             //console.log('secret works')
             const event = 'event'
             next(event)
