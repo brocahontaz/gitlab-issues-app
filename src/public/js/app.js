@@ -31,7 +31,7 @@ io.on('event', (event) => {
  * @param event
  */
 function createNote (event) {
-
+  update(event, 'New comment!')
 }
 
 /**
@@ -42,7 +42,7 @@ function createNotification (event) {
   console.log(template)
   template.querySelector('.action').innerText = event.action
   template.querySelector('.notificationLink').setAttribute('href', event.data.url)
-  template.querySelector('.notificationLink').innerText = event.data.title
+  template.querySelector('.notificationLink').innerText = '#' + event.data.iid + ' ' + event.data.title
   template.querySelector('.notificationDate').innerText = event.data.updatedAt
   template.querySelector('.author').setAttribute('href', event.data.authorUrl)
   template.querySelector('.notificationAvatar').setAttribute('src', event.data.authorAvatar)
@@ -63,7 +63,7 @@ function createIssue (event) {
   template.querySelector('.issue').id = event.data.id
 
   template.querySelector('.titleLink').setAttribute('href', event.data.url)
-  template.querySelector('.titleLink').innerText = event.data.title
+  template.querySelector('.titleLink').innerText = '#' + event.data.iid + ' ' + event.data.title
   template.querySelector('.openStatus').innerText = event.data.state
 
   template.querySelector('.author').setAttribute('href', event.data.authorUrl)
@@ -107,11 +107,16 @@ function reopenIssue (event) {
  */
 function update (event, state) {
   const issue = document.getElementById(event.data.id)
-  const status = document.createElement('span')
-  status.classList.add('new')
-  status.innerText = state
+  // const status = document.createElement('span')
+  // status.classList.add('new')
+  // status.innerText = state
   issue.querySelector('.news').innerText = state
   issue.querySelector('.header').classList.add('update')
   issue.querySelector('.openStatus').innerText = event.data.state
   issue.querySelector('.updatedAt').innerText = event.data.updatedAt
+
+  if (state === 'New comment!') {
+    const commentCount = issue.querySelector('.commentCount').textContent
+    issue.querySelector('.commentCount').innerText = parseInt(commentCount) + 1
+  }
 }

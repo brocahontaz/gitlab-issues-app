@@ -20,6 +20,8 @@ homeController.index = async (req, res) => {
 
     const issues = await data.json()
 
+    issues.sort((a, b) => new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime())
+
     const viewData = { issues }
 
     res.render('home/index', viewData)
@@ -49,14 +51,15 @@ homeController.receive = (req, res, next) => {
       if (req.headers['x-gitlab-event'] === 'Note Hook' && req.body.object_attributes.noteable_type === 'Issue') {
         data = {
           id: eventData.issue.id,
+          iid: eventData.issue.iid,
           title: eventData.issue.title,
           url: eventData.object_attributes.url,
-          state: eventData.object_attributes.state,
+          state: eventData.issue.state,
           labels: eventData.object_attributes.labels ? eventData.object_attributes.labels : null,
           createdAt: moment(eventData.object_attributes.created_at).format(DateFormats.long),
           updatedAt: moment(eventData.object_attributes.updated_at).format(DateFormats.long),
           author: eventData.user.name,
-          authorUrl: 'https://gitlab.lnu.se/' + eventData.user.name,
+          authorUrl: 'https://gitlab.lnu.se/' + eventData.user.username,
           authorAvatar: eventData.user.avatar_url,
           description: eventData.object_attributes.note,
           comments: 0,
@@ -67,6 +70,7 @@ homeController.receive = (req, res, next) => {
       } else if (req.headers['x-gitlab-event'] === 'Issue Hook') {
         data = {
           id: eventData.object_attributes.id,
+          iid: eventData.object_attributes.iid,
           title: eventData.object_attributes.title,
           url: eventData.object_attributes.url,
           state: eventData.object_attributes.state,
