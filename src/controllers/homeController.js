@@ -37,12 +37,20 @@ homeController.receive = (req, res, next) => {
     console.log('kind', data.object_kind)
     console.log('type', data.event_type)
     let event = {}
+    let eventData = {}
 
     if (req.headers['x-gitlab-token'] === process.env.SECRET) {
       if (req.headers['x-gitlab-event'] === 'Note Hook' && req.body.object_attributes.noteable_type === 'Issue') {
-        event = { type: 'note', data }
+        event = { type: 'note', eventData }
       } else if (req.headers['x-gitlab-event'] === 'Issue Hook') {
-        event = { type: 'issue', data }
+        eventData = {
+          title: data.object_attributes.title,
+          createdAt: data.object_attributes.created_at,
+          updatedAt: data.object_attributes.updated_at
+
+        }
+
+        event = { type: 'issue', eventData }
       }
       // console.log('secret works')
       // const event = 'event'

@@ -3,7 +3,7 @@ const io = window.io('/')
 console.log('client test')
 
 io.on('event', (event) => {
-  console.log('hallelujah')
+  // console.log('hallelujah')
   console.log(event)
 
   if (event.type === 'note') {
@@ -38,8 +38,11 @@ function createNotification (event) {
  */
 function createIssue (event) {
   const template = document.getElementById('issueTemplate').cloneNode(true).content
-  console.log(template.querySelector('.issue'))
-  console.log(template)
+  // console.log(template.querySelector('.issue'))
+  // console.log(template)
+  template.querySelector('.titleLink').innerText = event.data.object_attributes.title
+  template.querySelector('.openStatus').innerText = event.data.object_attributes.state
+  template.querySelector('.createdAt').innerText = event.data.object_attributes.created_at
   document.querySelector('.issues').insertBefore(template, document.querySelector('.issues').children[1])
 }
 
