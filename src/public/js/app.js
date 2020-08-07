@@ -119,4 +119,6 @@ function update (event, state) {
     const commentCount = issue.querySelector('.commentCount').textContent
     issue.querySelector('.commentCount').innerText = parseInt(commentCount) + 1
   }
+
+  document.querySelector('.issues').insertBefore(issue, document.querySelector('.issues').children[1])
 }
