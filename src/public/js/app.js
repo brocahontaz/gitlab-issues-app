@@ -7,7 +7,7 @@ io.on('event', (event) => {
   console.log(event)
 
   if (event.type === 'note') {
-    createNotification(event)
+    createNote(event)
   } else if (event.type === 'issue') {
     switch (event.action) {
       case 'open':
@@ -24,7 +24,15 @@ io.on('event', (event) => {
         break
     }
   }
+  createNotification(event)
 })
+
+/**
+ * @param event
+ */
+function createNote (event) {
+
+}
 
 /**
  * @param event
@@ -32,6 +40,17 @@ io.on('event', (event) => {
 function createNotification (event) {
   const template = document.getElementById('notificationTemplate').cloneNode(true).content
   console.log(template)
+  template.querySelector('.action').innerText = event.action
+  template.querySelector('.notificationLink').setAttribute('href', event.data.url)
+  template.querySelector('.notificationLink').innerText = event.data.title
+  template.querySelector('.notificationDate').innerText = event.data.updatedAt
+  template.querySelector('.author').setAttribute('href', event.data.authorUrl)
+  template.querySelector('.notificationAvatar').setAttribute('src', event.data.authorAvatar)
+  template.querySelector('.notificationAuthor').setAttribute('href', event.data.authorUrl)
+  template.querySelector('.notificationAuthor').innerText = event.data.author
+  template.querySelector('.text').innerText = event.data.description
+
+  document.querySelector('.notifications').insertBefore(template, document.querySelector('.notifications').children[1])
 }
 
 /**
@@ -94,4 +113,5 @@ function update (event, state) {
   issue.querySelector('.news').innerText = state
   issue.querySelector('.header').classList.add('update')
   issue.querySelector('.openStatus').innerText = event.data.state
+  issue.querySelector('.updatedAt').innerText = event.data.updatedAt
 }

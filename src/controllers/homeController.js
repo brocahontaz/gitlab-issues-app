@@ -48,8 +48,8 @@ homeController.receive = (req, res, next) => {
     if (req.headers['x-gitlab-token'] === process.env.SECRET) {
       if (req.headers['x-gitlab-event'] === 'Note Hook' && req.body.object_attributes.noteable_type === 'Issue') {
         data = {
-          id: eventData.object_attributes.id,
-          title: eventData.object_attributes.title,
+          id: eventData.issue.id,
+          title: eventData.issue.title,
           url: eventData.object_attributes.url,
           state: eventData.object_attributes.state,
           labels: eventData.object_attributes.labels ? eventData.object_attributes.labels : null,
@@ -58,12 +58,12 @@ homeController.receive = (req, res, next) => {
           author: eventData.user.name,
           authorUrl: 'https://gitlab.lnu.se/' + eventData.user.name,
           authorAvatar: eventData.user.avatar_url,
-          description: eventData.object_attributes.description,
+          description: eventData.object_attributes.note,
           comments: 0,
           upvotes: 0,
           downvotes: 0
         }
-        event = { type: 'note', data }
+        event = { type: 'note', action: 'note', data }
       } else if (req.headers['x-gitlab-event'] === 'Issue Hook') {
         data = {
           id: eventData.object_attributes.id,
