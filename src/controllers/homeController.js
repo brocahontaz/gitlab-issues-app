@@ -3,6 +3,12 @@
 require('dotenv').config()
 
 const fetch = require('node-fetch')
+const moment = require('moment')
+
+const DateFormats = {
+  short: 'MMM Do YY',
+  long: 'MMMM Do YYYY, HH:mm:ss'
+}
 
 const homeController = {}
 
@@ -26,7 +32,7 @@ homeController.index = async (req, res) => {
 
 homeController.receive = (req, res, next) => {
   try {
-    const data = req.body
+    const eventData = req.body
     res.sendStatus(200)
     // console.log('test', JSON.stringify(data))
     // console.log('test2', data)
@@ -34,23 +40,33 @@ homeController.receive = (req, res, next) => {
     // const json = JSON.parse(data)
     // console.log(req.headers)
     // console.log(data)
-    console.log('kind', data.object_kind)
-    console.log('type', data.event_type)
+    console.log('kind', eventData.object_kind)
+    console.log('type', eventData.event_type)
     let event = {}
-    let eventData = {}
+    let data = {}
 
     if (req.headers['x-gitlab-token'] === process.env.SECRET) {
       if (req.headers['x-gitlab-event'] === 'Note Hook' && req.body.object_attributes.noteable_type === 'Issue') {
         event = { type: 'note', eventData }
       } else if (req.headers['x-gitlab-event'] === 'Issue Hook') {
-        eventData = {
-          title: data.object_attributes.title,
-          createdAt: data.object_attributes.created_at,
-          updatedAt: data.object_attributes.updated_at
-
+        data = {
+          id: eventData.object_attributes.id,
+          title: eventData.object_attributes.title,
+          url: eventData.object_attributes.url,
+          state: eventData.object_attributes.state,
+          labels: eventData.object_attributes.labels,
+          createdAt: moment(eventData.object_attributes.created_at).format(DateFormats.long),
+          updatedAt: moment(eventData.object_attributes.updated_at).format(DateFormats.long),
+          author: eventData.user.name,
+          authorUrl: 'https://gitlab.lnu.se/' + eventData.user.name,
+          authorAvatar: eventData.user.avatar_url,
+          description: eventData.object_attributes.description,
+          comments: 0,
+          upvotes: 0,
+          downvotes: 0
         }
 
-        event = { type: 'issue', eventData }
+        event = { type: 'issue', action: eventData.object_attributes.action, data }
       }
       // console.log('secret works')
       // const event = 'event'
