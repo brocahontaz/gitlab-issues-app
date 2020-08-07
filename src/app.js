@@ -46,6 +46,7 @@ app.engine('hbs', hbs.express4({
 app.set('views', path.join(__dirname, 'views'))
 
 app.use(express.urlencoded({ extended: false }))
+app.use(express.json())
 
 app.use('/', express.static(path.join(__dirname, 'public')))
 
@@ -54,6 +55,17 @@ app.use('/', require('./routes/homeRouter'))
 app.use((event, req, res, next) => {
   console.log('post')
   io.emit('event', event)
+})
+
+app.use((err, req, res, next) => {
+  if (err.statusCode === 403) {
+    err.message = 'Resource forbidden!'
+  } else if (err.statusCode === 404) {
+    err.message = 'Resource not found!'
+  } else if (err.statusCode === 500) {
+    err.message = 'Internal server error!'
+  }
+  res.status(err.statusCode || 500).render('errors/error', { err })
 })
 
 io.on('connection', (socket) =>{
