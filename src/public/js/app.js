@@ -30,7 +30,8 @@ io.on('event', (event) => {
  * @param event
  */
 function createNotification (event) {
-
+  const template = document.getElementById('notificationTemplate').cloneNode(true).content
+  console.log(template)
 }
 
 /**
