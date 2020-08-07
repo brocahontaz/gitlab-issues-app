@@ -42,11 +42,11 @@ function createIssue (event) {
   console.log(template)
   template.querySelector('.issue').id = event.data.id
 
-  template.querySelector('.titleLink').setAttribute('src', event.data.url)
+  template.querySelector('.titleLink').setAttribute('href', event.data.url)
   template.querySelector('.titleLink').innerText = event.data.title
   template.querySelector('.openStatus').innerText = event.data.state
 
-  template.querySelector('.author').setAttribute('src', event.data.authorUrl)
+  template.querySelector('.author').setAttribute('href', event.data.authorUrl)
 
   const authorNode = document.createTextNode(event.data.author)
   template.querySelector('.author').insertBefore(authorNode, template.querySelector('.author').firstChild)
@@ -71,12 +71,26 @@ function updateIssue (event) {
  * @param event
  */
 function closeIssue (event) {
-
+  update(event, 'Closed!')
 }
 
 /**
  * @param event
  */
 function reopenIssue (event) {
+  update(event, 'Reopened!')
+}
 
+/**
+ * @param event
+ * @param state
+ */
+function update (event, state) {
+  const issue = document.getElementById(event.data.id)
+  const status = document.createElement('span')
+  status.classList.add('new')
+  status.innerText = state
+  issue.querySelector('.news').innerText = state
+  issue.querySelector('.header').classList.add('update')
+  issue.querySelector('.openStatus').innerText = event.data.state
 }

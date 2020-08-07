@@ -54,7 +54,7 @@ homeController.receive = (req, res, next) => {
           title: eventData.object_attributes.title,
           url: eventData.object_attributes.url,
           state: eventData.object_attributes.state,
-          labels: eventData.object_attributes.labels,
+          labels: eventData.object_attributes.labels ? eventData.object_attributes.labels : null,
           createdAt: moment(eventData.object_attributes.created_at).format(DateFormats.long),
           updatedAt: moment(eventData.object_attributes.updated_at).format(DateFormats.long),
           author: eventData.user.name,

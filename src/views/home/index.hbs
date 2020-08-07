@@ -6,10 +6,11 @@
     <div class="issue" id={{this.id}}>
         <div class="header">
             <a href="{{this.web_url}}">{{ this.title }}</a>
-            {{this.state}}
+            <span class="news"></span>
+            <span class="openStatus">{{this.state}}</span>
         </div>
         <div class="status">
-            Opened on {{formatDate this.created_at "long"}} by <a href="{{this.author.web_url}}" class="author">{{this.author.name}} <img src="{{this.author.avatar_url}}" class="avatar"></a>
+            <span>Opened on <span class="createdAt">{{formatDate this.created_at "long"}}</span> by </span><a href="{{this.author.web_url}}" class="author">{{this.author.name}} <img src="{{this.author.avatar_url}}" class="avatar"></a>
         </div>
         <div class="labels">
             {{#each this.labels}}
@@ -22,7 +23,7 @@
         <div class="footer">
             <span class="comments">Comments: {{this.user_notes_count}}</span>
             <span class="votes">Upvotes/Downvotes: {{this.upvotes}} / {{this.downvotes}}</span>
-            <span class="lastUpdated">Last updated on {{formatDate this.updated_at "long"}}</span>
+            <span class="lastUpdated">Last updated on  <span class="updatedAt">{{formatDate this.updated_at "long"}}</span></span>
         </div>
     </div> 
 {{/each}}
@@ -30,5 +31,16 @@
 <div class="notifications">
     <div class="notificationsHeader">
         Notifications
+    </div>
+    <div class="notification">
+        <div class="header">
+            <span class="action">Action: comment</span>
+        </div>
+        <div class="status">
+          Issue #3248 (Maybe now) on August 7th 2020, 16:12:04
+        </div>
+        <div class="user">
+          Done by Johan Andersson
+        </div>
     </div>
 </div>
