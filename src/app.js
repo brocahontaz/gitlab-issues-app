@@ -71,4 +71,4 @@ io.on('connection', (socket) => {
   console.log('connected on socket!')
 })
 
-server.listen(8080, () => console.log('Testing server at http://localhost:8080'))
+server.listen(8080, () => console.log('Testing server at http://localhost:' + process.env.PORT, 'NODE_ENV is set to: ' + process.env.NODE_ENV))

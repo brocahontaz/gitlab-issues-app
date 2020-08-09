@@ -327,6 +327,10 @@ a.notificationAuthor {
     color: #6932d0;
 }
 
+.news {
+    justify-self: center;
+}
+
 main div.issue .notification {
     box-sizing: border-box;
     width: 100%;

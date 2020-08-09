@@ -3,3 +3,6 @@ pm2 start "npm start" --name ja222um-issues --watch
 pm2 start npm --name ja222um-issues --start --watch
 
 object_attributes.action = 'update' / 'open' / 'close' / 'reopen'
+
+!!!remember!!!
+set NODE_ENV

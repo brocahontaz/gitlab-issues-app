@@ -1,0 +1,126 @@
+-- saved ssh in ~/.ssh/config as:
+Host 1dv023
+HostName 194.47.176.97
+IdentityFile ~/.ssh/ja222um_key_ssh.pem
+
+-- updated server
+sudo apt-get update
+sudo apt-get upgrade -y
+
+-- installing node/npm
+curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
+sudo apt-get install -y nodejs
+
+-- get dns
+nslookup -> cscloud6-97.lnu.se
+
+-- set NODE_ENV
+for whole server: /etc/environment: NODE_ENV=production
+for app: set in .env file
+
+-- firewall configuration
+allow traffic for port 22, 443, (80), then disallow everything else
+
+-- installing reversed proxy
+sudo apt-get install nginx -y <- install nginx
+sudo nano /etc/nginx/sites-enabled/default <- nginx config, remove defaults - return 444;
+test config: sudo nginx -t
+reload server: sudo service nginx reload
+cd /etc/nginx
+in conf.d -> create own config file -> sudo nano <domain>.conf -> 
+server {
+    listen 80;
+    listen [::]:80;
+
+    server name <domain>;
+
+    location / {
+        proxy_pass http://localhost:3000/;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+    }
+}
+reload server: sudo service nginx reload
+
+-- using pm2 (process manager)
+sudo npm install pm2 -g
+
+pm2 start npm --name ja222um-issues --start --watch -3
+
+-- using tls
+!letsencrypt! to create proper cert
+
+in the nginx-conf:
+server {
+    listen 443;
+    listen [::]:443;
+
+    ssl_on;
+    ssl_certificate <link to cert.pem>;
+    ssl_certificate_key <link to key.pem>;
+    ssl_ciphers <>;
+    ssl_prefer_server_ciphers on;
+    ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+
+    server name <domain>;
+
+    location / {
+        proxy_pass http://localhost:3000/;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+    }
+}
+
+configure http -> https redirect:
+new server block in nginx conf:
+server {
+    listen 80;
+    server_name <domain>;
+    return 301 https://$server_name$request_url;
+}
+
+sudo service nginx reload
+
+-- getting app to server
+create folder on server: 
+sudo mdkir /var/www/ja222um-issues
+sudo chown ubuntu ja222um-issues
+
+secure copy from host to server: 
+scp -r -i <path_to_ssh_key> . ubuntu@1dv023:/var/www/ja222um-issues (this copies -everything- -> copy package.json and install on server instead?)
+npm install --production
+ls -la
+
+use git to push to production server:
+(git / sudo apt-get install git)
+cd /var
+sudo mkdir repo
+cd repo
+sudo mkdir site.git
+cd ..
+sudo chown ubuntu site.git
+cd site.git
+sudo git init --bare
+cd hooks
+sudo nano post-receive:
+#!/bin/bash
+
+git --work-tree=/var/www/ja222um-issues --git-dir=/var/repo/site.git checkout -file
+cd /var/www/ja222um-issues
+npm install --production
+pm2 start npm --name ja222um-issues --start --watch -3
+
+sudo chmod +x post-receive
+
+- on host machine locally -
+git remote -v
+git remote add production ubuntu@194.47.176.97:/var/repo/site.git
+
+ssh-add -l
+ssh-add -K <path to key>
+
+-> git push production <-
+- host machine end -
+
