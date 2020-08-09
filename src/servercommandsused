@@ -117,6 +117,7 @@ sudo chmod +x post-receive
 - on host machine locally -
 git remote -v
 git remote add production ubuntu@194.47.176.97:/var/repo/site.git
+git remote add production ubuntu@194.47.176.97:/var/repo/ja222um-issues.git
 
 ssh-add -l
 ssh-add -K <path to key>
