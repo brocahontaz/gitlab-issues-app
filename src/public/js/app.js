@@ -6,6 +6,9 @@ io.on('event', (event) => {
   // console.log('hallelujah')
   console.log(event)
 
+  console.log('type', event.type)
+  console.log('action', event.action)
+
   if (event.type === 'note') {
     createNote(event)
   } else if (event.type === 'issue') {
@@ -44,7 +47,7 @@ function createNotification (event) {
   template.querySelector('.notificationLink').setAttribute('href', event.data.url)
   template.querySelector('.notificationLink').innerText = '#' + event.data.iid + ' ' + event.data.title
   template.querySelector('.notificationDate').innerText = event.data.updatedAt
-  template.querySelector('.author').setAttribute('href', event.data.authorUrl)
+  template.querySelector('.avatarLink').setAttribute('href', event.data.authorUrl)
   template.querySelector('.notificationAvatar').setAttribute('src', event.data.authorAvatar)
   template.querySelector('.notificationAuthor').setAttribute('href', event.data.authorUrl)
   template.querySelector('.notificationAuthor').innerText = event.data.author
@@ -121,7 +124,7 @@ function update (event, state) {
   }
 
   if (state === 'Updated!') {
-    issue.querySelector('description').innerText = event.data.description
+    issue.querySelector('.description').innerText = event.data.description
   }
 
   document.querySelector('.issues').insertBefore(issue, document.querySelector('.issues').children[1])
