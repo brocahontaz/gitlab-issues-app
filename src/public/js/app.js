@@ -84,7 +84,7 @@ function createIssue (event) {
  * @param event
  */
 function updateIssue (event) {
-
+  update(event, 'Updated!')
 }
 
 /**
@@ -118,6 +118,10 @@ function update (event, state) {
   if (state === 'New comment!') {
     const commentCount = issue.querySelector('.commentCount').textContent
     issue.querySelector('.commentCount').innerText = parseInt(commentCount) + 1
+  }
+
+  if (state === 'Updated!') {
+    issue.querySelector('description').innerText = event.data.description
   }
 
   document.querySelector('.issues').insertBefore(issue, document.querySelector('.issues').children[1])

@@ -8,3 +8,5 @@ object_attributes.action = 'update' / 'open' / 'close' / 'reopen'
 
 !!!remember!!!
 set NODE_ENV
+
+install certbot

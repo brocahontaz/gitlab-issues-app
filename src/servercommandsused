@@ -56,14 +56,14 @@ server {
     listen 443;
     listen [::]:443;
 
-    ssl_on;
-    ssl_certificate <link to cert.pem>;
-    ssl_certificate_key <link to key.pem>;
-    ssl_ciphers <>;
+    ssl on;
+    ssl_certificate /etc/letsencrypt/live/cscloud6-97.lnu.se/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/cscloud6-97.lnu.se/privkey.pem;
+    ssl_ciphers ECDH+AESGCM:ECDH+AES256:ECDH+AES128:DH+3DES:!ADH:!AECDH:!MD5;
     ssl_prefer_server_ciphers on;
-    ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+    ssl_protocols TLSv1.2 TLSv1.3;
 
-    server name <domain>;
+    server_name cscloud6-97.lnu.se;
 
     location / {
         proxy_pass http://localhost:3000/;
@@ -77,8 +77,8 @@ configure http -> https redirect:
 new server block in nginx conf:
 server {
     listen 80;
-    server_name <domain>;
-    return 301 https://$server_name$request_url;
+    server_name cscloud6-97.lnu.se;
+    return 301 https://$server_name$request_uri;
 }
 
 sudo service nginx reload

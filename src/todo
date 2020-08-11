@@ -1,0 +1,10 @@
+Fix last stuff on client side:
+- issue update (description etc)
+
+Clean up code:
+- remove logs etc
+- add JSDocs
+
+Server:
+- add firewall (maybe)
+- fix pm2 startup script
