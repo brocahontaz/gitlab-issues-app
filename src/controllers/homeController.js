@@ -1,3 +1,10 @@
+/**
+ * Home controller
+ *
+ * @author Johan Andersson
+ * @version 1.0
+ */
+
 'use strict'
 
 require('dotenv').config()
@@ -5,6 +12,7 @@ require('dotenv').config()
 const fetch = require('node-fetch')
 const moment = require('moment')
 
+// Date formats
 const DateFormats = {
   short: 'MMM Do YY',
   long: 'MMMM Do YYYY, HH:mm:ss'
@@ -14,7 +22,14 @@ const homeController = {}
 
 const apiUrl = 'https://gitlab.lnu.se/api/v4/projects/' + process.env.PROJECT_ID + '/issues?private_token=' + process.env.ACCESS_TOKEN
 
-homeController.index = async (req, res) => {
+/**
+ * Render the home page, with all issues
+ *
+ * @param {object} req the Express request object
+ * @param {object} res the Express response object
+ * @param {object} next the Express forward object
+ */
+homeController.index = async (req, res, next) => {
   try {
     const data = await fetch(apiUrl)
 
@@ -25,29 +40,28 @@ homeController.index = async (req, res) => {
     const viewData = { issues }
 
     res.render('home/index', viewData)
-
-    // console.log(await issues)
   } catch (err) {
-    console.log(err)
+    next(err)
   }
 }
 
+/**
+ * Receive data from webhook
+ *
+ * @param {object} req the Express request object
+ * @param {object} res the Express response object
+ * @param {object} next the Express forward object
+ */
 homeController.receive = (req, res, next) => {
   try {
     const eventData = req.body
     res.sendStatus(200)
-    // console.log('test', JSON.stringify(data))
-    // console.log('test2', data)
-    // console.log('test3', req.body)
-    // const json = JSON.parse(data)
-    // console.log(req.headers)
-    // console.log(data)
-    console.log('kind', eventData.object_kind)
-    console.log('type', eventData.event_type)
     let event = {}
     let data = {}
 
+    // Control that token is correct = source is gitlab
     if (req.headers['x-gitlab-token'] === process.env.SECRET) {
+      // Check if event is a new comment on an issue, create notification event to dispatch
       if (req.headers['x-gitlab-event'] === 'Note Hook' && req.body.object_attributes.noteable_type === 'Issue') {
         data = {
           id: eventData.issue.id,
@@ -67,6 +81,7 @@ homeController.receive = (req, res, next) => {
           downvotes: 0
         }
         event = { type: 'note', action: 'note', data }
+        // Check if event is a new issue, create new issue event to dispatch
       } else if (req.headers['x-gitlab-event'] === 'Issue Hook') {
         data = {
           id: eventData.object_attributes.id,
@@ -88,15 +103,11 @@ homeController.receive = (req, res, next) => {
 
         event = { type: 'issue', action: eventData.object_attributes.action, data }
       }
-      // console.log('secret works')
-      // const event = 'event'
       next(event)
     }
   } catch (err) {
-    console.log(err)
     next(err)
   }
-  // console.log(req.body.json())
 }
 
 module.exports = homeController
