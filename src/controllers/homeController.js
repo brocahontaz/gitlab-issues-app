@@ -23,7 +23,7 @@ const homeController = {}
 const apiUrl = 'https://gitlab.lnu.se/api/v4/projects/' + process.env.PROJECT_ID + '/issues?private_token=' + process.env.ACCESS_TOKEN
 
 /**
- * Render the home page, with all issues
+ * Render the home page, with all issues.
  *
  * @param {object} req the Express request object
  * @param {object} res the Express response object
@@ -46,7 +46,7 @@ homeController.index = async (req, res, next) => {
 }
 
 /**
- * Receive data from webhook
+ * Receive data from webhook.
  *
  * @param {object} req the Express request object
  * @param {object} res the Express response object
@@ -81,7 +81,7 @@ homeController.receive = (req, res, next) => {
           downvotes: 0
         }
         event = { type: 'note', action: 'note', data }
-        // Check if event is a new issue, create new issue event to dispatch
+        // Check if event is a new/updated issue, create new/updated issue event to dispatch
       } else if (req.headers['x-gitlab-event'] === 'Issue Hook') {
         data = {
           id: eventData.object_attributes.id,

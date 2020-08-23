@@ -1,16 +1,19 @@
+/**
+ * Client side JS script
+ *
+ * @author Johan Andersson
+ * @version 1.0
+ */
+
 const io = window.io('/')
 
-console.log('client test')
-
+// Catch event 'event' emitted from the express backend
 io.on('event', (event) => {
-  // console.log('hallelujah')
-  console.log(event)
-
-  console.log('type', event.type)
-  console.log('action', event.action)
-
+  // Create note if type is a new comment
   if (event.type === 'note') {
     createNote(event)
+
+    // Otherwise create/update issue in list
   } else if (event.type === 'issue') {
     switch (event.action) {
       case 'open':
@@ -27,22 +30,30 @@ io.on('event', (event) => {
         break
     }
   }
+
+  // Finally create notification
   createNotification(event)
 })
 
 /**
- * @param event
+ * Create note.
+ *
+ * @author Johan Andersson
+ * @param {Event} event the event
  */
 function createNote (event) {
   update(event, 'New comment!')
 }
 
 /**
- * @param event
+ * Create notification.
+ *
+ * @author Johan Andersson
+ * @param {Event} event the event
  */
 function createNotification (event) {
   const template = document.getElementById('notificationTemplate').cloneNode(true).content
-  console.log(template)
+
   template.querySelector('.action').innerText = event.action
   template.querySelector('.notificationLink').setAttribute('href', event.data.url)
   template.querySelector('.notificationLink').innerText = '#' + event.data.iid + ' ' + event.data.title
@@ -57,12 +68,14 @@ function createNotification (event) {
 }
 
 /**
- * @param event
+ * Create a new issue in the list.
+ *
+ * @author Johan Andersson
+ * @param {Event} event the event
  */
 function createIssue (event) {
   const template = document.getElementById('issueTemplate').cloneNode(true).content
-  // console.log(template.querySelector('.issue'))
-  console.log(template)
+
   template.querySelector('.issue').id = event.data.id
 
   template.querySelector('.titleLink').setAttribute('href', event.data.url)
@@ -84,35 +97,45 @@ function createIssue (event) {
 }
 
 /**
- * @param event
+ * Update issue.
+ *
+ * @author Johan Andersson
+ * @param {Event} event the event
  */
 function updateIssue (event) {
   update(event, 'Updated!')
 }
 
 /**
- * @param event
+ * Close issue.
+ *
+ * @author Johan Andersson
+ * @param {Event} event the event
  */
 function closeIssue (event) {
   update(event, 'Closed!')
 }
 
 /**
- * @param event
+ * Reopen issue.
+ *
+ * @author Johan Andersson
+ * @param {Event} event the event
  */
 function reopenIssue (event) {
   update(event, 'Reopened!')
 }
 
 /**
- * @param event
- * @param state
+ * Update an issues content in the list.
+ *
+ * @author Johan Andersson
+ * @param {Event} event the event
+ * @param {string} state the type of update
  */
 function update (event, state) {
   const issue = document.getElementById(event.data.id)
-  // const status = document.createElement('span')
-  // status.classList.add('new')
-  // status.innerText = state
+
   issue.querySelector('.news').innerText = state
   issue.querySelector('.header').classList.add('update')
   issue.querySelector('.openStatus').innerText = event.data.state
