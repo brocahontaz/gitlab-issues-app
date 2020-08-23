@@ -126,3 +126,13 @@ ssh-add ~/.ssh/ja222um_key_ssh.pem
 -> git push production <-
 - host machine end -
 
+-- updated post-receive
+#!/bin/bash
+
+git --work-tree=/var/www/ja222um-issues --git-dir=/var/repo/ja222um-issues.git checkout -f
+cd /var/www/ja222um-issues
+npm install --production
+pm2 stop ja222um-issues
+pm2 remove ja222um-issues
+pm2 start src/app.js --name ja222um-issues -f
+
