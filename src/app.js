@@ -32,7 +32,6 @@ const DateFormats = {
 hbs.registerHelper('formatDate', function (datetime, format) {
   if (moment) {
     format = DateFormats[format] || format
-    // console.log('datum', datetime)
     return moment(datetime).format(format)
   } else {
     return datetime
