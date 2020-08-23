@@ -134,5 +134,5 @@ cd /var/www/ja222um-issues
 npm install --production
 pm2 stop ja222um-issues
 pm2 delete ja222um-issues
-pm2 start src/app.js --name ja222um-issues -f
+NODE_ENV=production pm2 start src/app.js --name ja222um-issues -f
 
