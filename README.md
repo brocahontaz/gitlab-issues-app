@@ -1,1 +1,1 @@
-https://cscloud6-97.lnu.se/
+Platform to view issues on a gitlab repo, with realtime updates. Built with Express.js and socket.io.
